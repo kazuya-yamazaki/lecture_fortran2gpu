@@ -1,8 +1,5 @@
 program main
   use mpi
-! #ifdef _OPENACC
-!   use openacc
-! #endif
   use diffusion
   use misc
   implicit none

@@ -3,7 +3,7 @@ OMPVER=5 #4 or 5
 F90  = nvfortran
 RM  = rm -f
 
-FFLAGS    = -O3 -mp=gpu -gpu=cc80 -Minfo=mp -Mpreprocess -DOMP=${OMPVER}
+FFLAGS    = -fast -mp=gpu -gpu=cc90,mem:separate -Minfo=mp -Mpreprocess -DOMP=${OMPVER}
 LDFLAGS   = 
 
 SRCS   = main.f90

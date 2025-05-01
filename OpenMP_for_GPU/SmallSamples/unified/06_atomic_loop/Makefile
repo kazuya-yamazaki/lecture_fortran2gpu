@@ -3,8 +3,9 @@ OMPVER=5 #4 or 5
 F90  = nvfortran
 RM  = rm -f
 
-FFLAGS    = -fast -mp=gpu -gpu=cc90,mem:unified:nomanagedalloc -Minfo=mp -Mpreprocess -DOMP=${OMPVER}
-# Unified Memory非対応機では、mem:unified:nomanagedalloc を mem:managed に変える
+FFLAGS    = -fast -mp=gpu -gpu=cc90,mem:unified -Minfo=mp -Mpreprocess -DOMP=${OMPVER}
+# Unified Memory非対応機では、mem:unified を mem:managed に変える
+# mem:unified:nomanagedallocだとSegmentation faultになる
 LDFLAGS   = 
 
 SRCS   = main.f90

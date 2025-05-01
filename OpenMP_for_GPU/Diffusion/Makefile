@@ -1,4 +1,4 @@
-subdirs=ompgpu ompgpu_unified ompgpu_nowait_overlap
+subdirs=ompgpu ompgpu_unified
 
 .PHONY: all $(subdirs)
 

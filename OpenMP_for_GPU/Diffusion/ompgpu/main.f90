@@ -71,10 +71,7 @@ program main
 
   call MPI_Barrier(MPI_COMM_WORLD, ierr)
 
-  !$omp target   &
-  !$omp data    &
-  !$omp& map(tofrom:f)  &
-  !$omp& map(tofrom:fn)
+  !$omp target data map(tofrom:f, fn)
   tag = 0
   
   !$omp target data use_device_ptr(f)
@@ -134,22 +131,5 @@ program main
   deallocate(f,fn)
 
   call MPI_Finalize(ierr)
-
-contains
-
-  subroutine work_around(f,nx,ny,nz,rank_up,rank_down,tag,ireq,ierr)
-    implicit none
-    real(kind=8), dimension(*) :: f
-    integer :: nx,ny,nz,rank_up,rank_down,tag,ireq(:),ierr
-    
-    !$omp target   &
-    !$omp& data    &
-    !$omp& use_device_ptr(f)
-    call MPI_Irecv(f(1)             , nx*ny, MPI_DOUBLE, rank_down, tag, MPI_COMM_WORLD, ireq(1), ierr)
-    call MPI_Irecv(f(nx*ny*(nz+1)+1), nx*ny, MPI_DOUBLE, rank_up  , tag, MPI_COMM_WORLD, ireq(2), ierr)
-    call MPI_Isend(f(nx*ny*nz+1)    , nx*ny, MPI_DOUBLE, rank_up  , tag, MPI_COMM_WORLD, ireq(3), ierr)
-    call MPI_Isend(f(nx*ny+1)       , nx*ny, MPI_DOUBLE, rank_down, tag, MPI_COMM_WORLD, ireq(4), ierr)
-    !$omp end target data
-  end subroutine work_around
 
 end program main

@@ -104,14 +104,11 @@ contains
     double precision :: err
     integer :: i,j
     err = 0.0
-    !$acc kernels
-    !$acc loop collapse(2) reduction(+:err)
     do j = 1, N
        do i = 1, N
           err = err + (a(i,j) - b(i,j)) * (a(i,j) - b(i,j))
        end do
     end do
-    !$acc end kernels
     accuracy = dble(sqrt(err/(N*N)))
   end function accuracy
   

@@ -78,9 +78,7 @@ program main
 
   call MPI_Barrier(MPI_COMM_WORLD, ierr)
 
-  !$acc data     &
-  !$acc& copy(f)   &
-  !$acc& copy(fn)
+  !$acc data copy(f, fn)
   tag = 0
   !$acc host_data use_device(f)
   call MPI_Isend(f(:,:,nz)  , nx*ny, MPI_DOUBLE, rank_up  , tag, MPI_COMM_WORLD, ireq(1), ierr)
